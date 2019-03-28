@@ -14,8 +14,12 @@
 #
 #------------------------------
 
-import win32com.client   # if this fails, you must install module pywin32
 import sys, os
+try:
+    import win32com.client   # if this fails, you must install module pywin32
+except:
+    print('Failed to import win32com.client, try installing module pywin32')
+    sys.exit(0)
 
 # Create application object
 surf = win32com.client.Dispatch("Surfer.Application")
@@ -48,7 +52,7 @@ for fil in fileList:
         CurrentDoc = surf.Documents.Open(os.path.join(pwd, fil))
         pdfFile = os.path.join(outDir, printName + '.pdf')
         print ' ...printing file...'
-        CurrentDoc.Export2(pdfFile, False, True, "pdfv")
+        CurrentDoc.Export2(pdfFile, False,  "HDPI=300, VDPI=300", "pdfi")
 
         # Close surfer file
         CurrentDoc.Close()
